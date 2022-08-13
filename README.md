@@ -9,7 +9,6 @@ A short project to learn Spring boot and Junit. Gets developer salary at 3 exper
 
 ### Operation
 
-Some Key Points
 * Using specified time limits and "updated_on" fields in the DB, information in this project expires and refetches information from its source. This also applies to currency conversion.
 * Google Custom Search is used to scrape Glassdoor for Salary info as their URLs are not consistent.
 * The Expense List, called 'Spend', is fetched straight from the website.
