@@ -5,11 +5,9 @@ import fyi.incomeoutcome.salarytaxspend.data.source.SalarySource;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.beans.factory.annotation.Value;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-//import java.sql.Date;
+
 @Slf4j
 @ToString
 @NoArgsConstructor
@@ -38,6 +36,9 @@ public class Salary {
     @Basic
     private java.sql.Date convertedOn;
 
+    @Value("${taxNeverSetDate}")
+    private String taxNeverSetDate;
+
     public Salary(int compensation, Role role, City city, SalarySource source, String currency){
         this.compensation = compensation;
         this.role = role;
@@ -46,18 +47,7 @@ public class Salary {
         this.currency = currency;
         this.updatedOn = new java.sql.Date(System.currentTimeMillis());
         this.compensationConverted = 0;
-        this.convertedOn = java.sql.Date.valueOf("1970-01-01");
-    }
-
-    public boolean dueNewCompensation(){
-        if (this.updatedOn == null){
-            return true;
-        }
-        Date lastUpdated = new java.util.Date(this.updatedOn.getTime());
-        Date today = new Date(System.currentTimeMillis());
-        long diffInMs = today.getTime() - lastUpdated.getTime();
-        long daysSinceLastConversion = TimeUnit.DAYS.convert(diffInMs, TimeUnit.MILLISECONDS);
-        return (daysSinceLastConversion > 183);
+        this.convertedOn = java.sql.Date.valueOf(taxNeverSetDate);
     }
 
     public void setCompensationConverted(double currencyConverted){

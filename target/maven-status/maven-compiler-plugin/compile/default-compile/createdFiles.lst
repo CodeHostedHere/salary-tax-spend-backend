@@ -5,6 +5,7 @@ fyi/incomeoutcome/salarytaxspend/service/datafetching/SalaryFetchingService.clas
 fyi/incomeoutcome/salarytaxspend/data/Currency.class
 fyi/incomeoutcome/salarytaxspend/data/Spend$SpendBuilder.class
 fyi/incomeoutcome/salarytaxspend/data/source/CurrencySource.class
+fyi/incomeoutcome/salarytaxspend/WebConfig.class
 fyi/incomeoutcome/salarytaxspend/repository/source/SpendSourceRepository.class
 fyi/incomeoutcome/salarytaxspend/data/Role.class
 fyi/incomeoutcome/salarytaxspend/data/Tax.class
@@ -18,14 +19,18 @@ fyi/incomeoutcome/salarytaxspend/service/datafetching/SpendFetchingService.class
 fyi/incomeoutcome/salarytaxspend/data/source/SalarySource.class
 fyi/incomeoutcome/salarytaxspend/repository/source/TaxSourceRepository.class
 fyi/incomeoutcome/salarytaxspend/repository/source/SalarySourceRepository.class
+fyi/incomeoutcome/salarytaxspend/util/RoleUtil.class
 fyi/incomeoutcome/salarytaxspend/data/source/TaxSource.class
 fyi/incomeoutcome/salarytaxspend/repository/CurrencyRepository.class
 fyi/incomeoutcome/salarytaxspend/repository/TaxRepository.class
 fyi/incomeoutcome/salarytaxspend/repository/SalaryRepository.class
 fyi/incomeoutcome/salarytaxspend/controller/SalaryController.class
 fyi/incomeoutcome/salarytaxspend/controller/SpendController.class
+fyi/incomeoutcome/salarytaxspend/util/TaxUtil.class
+fyi/incomeoutcome/salarytaxspend/util/SpendUtil.class
 fyi/incomeoutcome/salarytaxspend/repository/RoleRepository.class
 fyi/incomeoutcome/salarytaxspend/service/datafetching/DataFetchingService.class
+fyi/incomeoutcome/salarytaxspend/util/SalaryUtil.class
 fyi/incomeoutcome/salarytaxspend/data/Salary.class
 fyi/incomeoutcome/salarytaxspend/controller/TaxController.class
 fyi/incomeoutcome/salarytaxspend/controller/CityController.class

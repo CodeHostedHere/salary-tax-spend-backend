@@ -34,20 +34,6 @@ public class Tax {
         this.convertedOn = null;
     }
 
-    public boolean dueNewTax(){
-        Salary relatedSalary = this.getSalary();
-        long compensationLastUpdated = relatedSalary.getUpdatedOn().getTime();
-        long taxLastUpdated = this.getUpdatedOn().getTime();
-        long today = System.currentTimeMillis();
-        long daysSinceLastTaxUpdate = TimeUnit.DAYS.convert(today-taxLastUpdated, TimeUnit.MILLISECONDS);
-        boolean taxNeverUpdated = taxLastUpdated == 0;
-        boolean taxIsForOldCompenstion = compensationLastUpdated > taxLastUpdated;
-        boolean taxIsForLastYear = daysSinceLastTaxUpdate > 365;
-        log.debug(String.format("For country %s, taxNeverUpdated %b, taxIsForOldCompensation %b ,taxIsForLastYear %b",
-                relatedSalary.getCountry(), taxNeverUpdated, taxIsForOldCompenstion, taxIsForLastYear));
-        return (taxNeverUpdated || taxIsForOldCompenstion || taxIsForLastYear );
-    }
-
     @JsonIgnore
     public java.sql.Date getUpdatedOn(){ return this.updatedOn; }
 

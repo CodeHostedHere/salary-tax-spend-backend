@@ -10,6 +10,7 @@ import fyi.incomeoutcome.salarytaxspend.repository.RoleRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.source.SalarySourceRepository;
 import fyi.incomeoutcome.salarytaxspend.service.scraper.GlassdoorScraper;
+import fyi.incomeoutcome.salarytaxspend.util.SalaryUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,7 +51,7 @@ public class SalaryFetchingService implements DataFetchingService {
                     boolean salaryRequired = false;
                     if (foundSalaryOptional.isPresent()) {
                         Salary foundSalary = foundSalaryOptional.get();
-                        if (foundSalary.dueNewCompensation()) {
+                        if (SalaryUtil.dueNewCompensation(foundSalary)) {
                             log.debug(String.format("Salary compensation out of date for: %s", foundSalary));
                             salaryRequired = true;
                         }

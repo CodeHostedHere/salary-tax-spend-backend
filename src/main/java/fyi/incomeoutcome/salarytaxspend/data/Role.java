@@ -1,8 +1,5 @@
 package fyi.incomeoutcome.salarytaxspend.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.json.JSONPropertyIgnore;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -30,16 +27,7 @@ public class Role {
         return this.seniority;
     }
 
-    public String getRole(){ return this.roleName; }
-
-    @JsonIgnore
-    public String getFullRoleTitle(){
-        if (this.seniority.equals("")){
-            return String.format("%s %s", this.seniority, this.roleName);
-        } else{
-            return roleName;
-        }
-    }
+    public String getRoleName(){ return this.roleName; }
 
     public String toString(){
         return String.format("id=%d, %s %s", id, seniority, roleName);

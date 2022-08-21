@@ -5,11 +5,14 @@ import fyi.incomeoutcome.salarytaxspend.data.Role;
 import fyi.incomeoutcome.salarytaxspend.data.Salary;
 import fyi.incomeoutcome.salarytaxspend.data.source.SalarySource;
 import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
+import fyi.incomeoutcome.salarytaxspend.util.RoleUtil;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +26,14 @@ public abstract class GoogleCustomSearchScraper {
     protected int compensation;
     protected String currency;
 
-    protected final String[] badWords = {"Intern", "Graduate" , "Associate", "Junior", "Senior", "Lead", "Staff", "Principal", "Java"};
+    @Value("${badWords}")
+    protected String[] badWords;
+    @Value("${googleResultItemKey}")
+    protected String googleResultItemKey;
+    @Value("${googleResultTitleKey}")
+    protected String googleResultTitleKey;
+    @Value("${googleResultUrlKey}")
+    protected String googleResultUrlKey;
 
     @Autowired
     SalaryRepository salaryRepo;
@@ -50,14 +60,14 @@ public abstract class GoogleCustomSearchScraper {
 
     protected String findCorrectLink(String searchResults){
         JSONArray jsonResultLink = new JSONObject(searchResults)
-                .getJSONArray("items");
+                .getJSONArray(googleResultItemKey);
         String roleSeniority = role.getSeniority();
         String[] relevantBadWords = ArrayUtils.removeElement(badWords, roleSeniority);
 
         int correctSearchResultIndex = 0;
         for (int i=0; i < 10; i++){
             boolean noBadWords = true;
-            String pageTitle = jsonResultLink.getJSONObject(i).getString("title");
+            String pageTitle = jsonResultLink.getJSONObject(i).getString(googleResultTitleKey);
             if (!pageTitle.contains(roleSeniority) && !pageTitle.contains(roleSeniority.toLowerCase())){
                 continue;
             }
@@ -77,7 +87,7 @@ public abstract class GoogleCustomSearchScraper {
             }
         }
         return jsonResultLink.getJSONObject(correctSearchResultIndex)
-                .getString("link");
+                .getString(googleResultUrlKey);
     }
     
     protected Salary saveSalary(){
@@ -96,7 +106,7 @@ public abstract class GoogleCustomSearchScraper {
     }
 
     public String toString(){
-        return String.format("GoogleCustomSearchScraper %s, %s, %s", role.getFullRoleTitle(),
+        return String.format("GoogleCustomSearchScraper %s, %s, %s", RoleUtil.getFullRoleTitle(role),
                 city.getName(), source.getName());
     }
 

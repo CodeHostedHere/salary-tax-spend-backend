@@ -1,2 +1,5 @@
-/Users/glacey/java/salary-tax-spend/src/test/java/fyi/incomeoutcome/salarytaxspend/salary/service/ScraperServiceGlassdoorTest.java
-/Users/glacey/java/salary-tax-spend/src/test/java/fyi/incomeoutcome/salarytaxspend/SalaryTaxSpendApplicationTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/salary/salarysite/SalarySourceTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/salary/SalaryTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/city/CityTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/salary/service/GoogleSearchScraperTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/SalaryTaxSpendApplicationTest.java

@@ -10,11 +10,13 @@ import fyi.incomeoutcome.salarytaxspend.repository.TaxRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.source.CurrencySourceRepository;
 import fyi.incomeoutcome.salarytaxspend.data.Currency;
 import fyi.incomeoutcome.salarytaxspend.data.Salary;
+import fyi.incomeoutcome.salarytaxspend.util.SpendUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -40,6 +42,17 @@ public class CurrencyFetchingService implements DataFetchingService {
     @Autowired
     private SpendRepository spendRepository;
 
+    @Value("${currencySiteId}")
+    private long currencySiteId;
+    @Value("${localCurrencySymbolRepresentation}")
+    private String localCurrencySymbolRepresentation;
+    @Value("${localCurrencyCodeRepresentation}")
+    private String localCurrencyCodeRepresentation;
+    @Value("${currencyCodeKey}")
+    private String currencyCodeKey;
+    @Value("${currencyValueKey}")
+    private String currencyValueKey;
+
     @Override
     public void refreshAll(){
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
@@ -56,7 +69,7 @@ public class CurrencyFetchingService implements DataFetchingService {
     }
 
     private void setConvertedSpend(Spend spend, java.sql.Date today){
-        HashMap<String, Double> pricesToConvert = spend.getPricesToConvert();
+        HashMap<String, Double> pricesToConvert = SpendUtil.getPricesToConvert(spend);
         String currencyUsed = spend.getCurrency();
         log.info("Starting conversion of spend for city " + spend.getCity());
         for(Map.Entry<String,Double> priceToConvert: pricesToConvert.entrySet()){
@@ -112,7 +125,7 @@ public class CurrencyFetchingService implements DataFetchingService {
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public double convertFigureToEuro(double figure, String currencyUsed){
-        if (currencyUsed.equals("€")){
+        if (currencyUsed.equals(localCurrencySymbolRepresentation)){
             return figure;
         }
         var currencyNeededOptional = currencyRepository.findByCurrencyCode(currencyUsed);
@@ -143,11 +156,11 @@ public class CurrencyFetchingService implements DataFetchingService {
             log.info(String.valueOf(currencyResultsJson.get(key)));
             JSONObject currencyEntry = (JSONObject) currencyResultsJson.get(key);
             log.info(String.valueOf(currencyEntry));
-            String currencyCode = (String) currencyEntry.get("code");
-            if (currencyCode.equals("EUR")){
+            String currencyCode = (String) currencyEntry.get(currencyCodeKey);
+            if (currencyCode.equals(localCurrencyCodeRepresentation)){
                 continue;
             }
-            BigDecimal currencyRate = (BigDecimal) currencyEntry.get("value");
+            BigDecimal currencyRate = (BigDecimal) currencyEntry.get(currencyValueKey);
             double currencyRateDouble = currencyRate.doubleValue();
             log.info(String.format("Currency code, rate : %s %s", currencyCode, currencyRateDouble));
             Currency generatedCurrency = new Currency(currencyCode, currencyRateDouble);

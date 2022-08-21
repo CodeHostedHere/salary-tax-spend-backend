@@ -7,6 +7,7 @@ import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.TaxRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.source.TaxSourceRepository;
 
+import fyi.incomeoutcome.salarytaxspend.util.TaxUtil;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -16,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -31,6 +33,33 @@ public class TaxFetchingService implements DataFetchingService {
     @Autowired
     private SalaryRepository salaryRepository;
     private ChromeDriver driver;
+
+    @Value("${taxSourceId}")
+    private long taxSourceId;
+    @Value("${taxUrlDelimiter}")
+    private String taxUrlDelimiter;
+    @Value("${unusualCountryTaxPage}")
+    private String unusualCountryTaxPage;
+    @Value("${salaryInputId}")
+    private String salaryInputId;
+    @Value("${jsEnterValueScript}")
+    private String jsEnterValueScript;
+    @Value("${cookieConsentXPath}")
+    private String cookieConsentXPath;
+    @Value("${fullPageViewXPath}")
+    private String fullPageViewXPath;
+    @Value("${taxPayableLongTableXPath}")
+    private String taxPayableLongTableXPath;
+    @Value("${taxPayableShortTableXPath}")
+    private String taxPayableShortTableXPath;
+    @Value("${germanSalaryInput}")
+    private String germanSalaryInput;
+    @Value("germanFullPageViewXPath")
+    private String germanFullPageViewXPath;
+    @Value("germanNetIncomeXPath")
+    private String germanNetIncomeXPath;
+    @Value("${localCurrencySymbolRepresentation}")
+    private String localCurrencySymbolRepresentation;
 
     public TaxFetchingService(){
     }
@@ -50,7 +79,7 @@ public class TaxFetchingService implements DataFetchingService {
             boolean taxRequired = false;
             if (taxRecordOptional.isPresent()){
                 Tax taxRecord = taxRecordOptional.get();
-                if (taxRecord.dueNewTax()){
+                if (TaxUtil.dueNewTax(taxRecord)){
                     log.debug(String.format("Tax for salary %s out of date", salary));
                     taxRequired = true;
                 }
@@ -68,31 +97,29 @@ public class TaxFetchingService implements DataFetchingService {
 
     public double getTaxPayable(Salary salary){
         setupDriver();
-        TaxSource taxSite = taxSourceRepository.findById(1);
+        TaxSource taxSite = taxSourceRepository.findById(taxSourceId);
         String countryLower = salary.getCountry().toLowerCase();
         String taxSiteUrl = taxSite.getUrlBase() + salary.getCountry().toLowerCase() + taxSite.getUrlEnd();
-        taxSiteUrl = taxSiteUrl.replace(" ", "-");
+        taxSiteUrl = taxSiteUrl.replace(" ", taxUrlDelimiter);
         log.info(String.format("Fetching with site %s for salary %s", taxSiteUrl, salary.getCountry()));
         driver.get(taxSiteUrl);
-        if (countryLower.equals("germany")){
+        if (countryLower.equals(unusualCountryTaxPage)){
             return getGermanTaxPayable(salary);
         }
 
-        WebElement salaryInput = driver.findElement(By.id("j2"));
+        WebElement salaryInput = driver.findElement(By.id(salaryInputId));
         JavascriptExecutor jExec = driver;
-        String executionScript = String.format("arguments[0].value='%s';", salary.getCompensation());
+        String executionScript = String.format(jsEnterValueScript, salary.getCompensation());
         jExec.executeScript(executionScript, salaryInput);
         try {
-            WebElement cookieConsent = driver.findElementByXPath("/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[1]");
+            WebElement cookieConsent = driver.findElementByXPath(cookieConsentXPath);
             cookieConsent.click();
         } catch (Exception NoSuchElementException){
             log.warn("Cookie consent was not found, likely already accepted.");
         }
         // Need to click this to get results to expand
-        WebElement fullPageView = driver.findElementByXPath("//*[@id=\"calc\"]/table[1]/tbody/tr[2]/td/label[2]");
+        WebElement fullPageView = driver.findElementByXPath(fullPageViewXPath);
         fullPageView.click();
-        String taxPayableLongTableXPath = "//*[@id=\"taxResults\"]/table[1]/tbody/tr[8]/td[1]";
-        String taxPayableShortTableXPath = "//*[@id=\"taxResults\"]/table[1]/tbody/tr[4]/td[1]";
         String taxPayable;
         try {
             WebElement taxPayableElement = new WebDriverWait(driver, 5)
@@ -109,25 +136,24 @@ public class TaxFetchingService implements DataFetchingService {
     }
 
     public double getGermanTaxPayable(Salary salary){
-        WebElement salaryInput = driver.findElement(By.id("g1"));
+        WebElement salaryInput = driver.findElement(By.id(germanSalaryInput));
         JavascriptExecutor jExec = driver;
-        String executionScript = String.format("arguments[0].value='%s';", salary.getCompensation());
+        String executionScript = String.format(jsEnterValueScript, salary.getCompensation());
         jExec.executeScript(executionScript, salaryInput);
         try {
-            WebElement cookieConsent = driver.findElementByXPath("/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[1]");
+            WebElement cookieConsent = driver.findElementByXPath(cookieConsentXPath);
             cookieConsent.click();
         } catch (Exception NoSuchElementException){
             log.warn("Cookie consent was not found, likely already accepted.");
         }
-        WebElement fullPageView = driver.findElementByXPath("/html/body/div[2]/div/div[2]/div[2]/form/table[1]/tbody/tr[6]/td/label[2]");
+        WebElement fullPageView = driver.findElementByXPath(germanFullPageViewXPath);
 
         fullPageView.click();
-        String netIncomeXPath = "/html/body/div[2]/div/div[2]/div[2]/div[4]/table/tbody/tr[8]/td[1]";
         WebElement netIncomeElement = new WebDriverWait(driver, 5)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(netIncomeXPath)));
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(germanNetIncomeXPath)));
         // Germany doesn't have an easy total deductions field to take from so we work from Net Income
         String netIncome = netIncomeElement.getText().replace(",","")
-                .replace("€","");
+                .replace(localCurrencySymbolRepresentation,"");
         double netIncomeDouble = Double.parseDouble(netIncome);
         return salary.getCompensation() - netIncomeDouble;
     }

@@ -1,5 +1,6 @@
 package fyi.incomeoutcome.salarytaxspend.service.scraper;
 
+import fyi.incomeoutcome.salarytaxspend.util.RoleUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.apache.commons.lang3.ArrayUtils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -19,16 +21,25 @@ import java.net.http.HttpResponse;
 @Slf4j
 public class GlassdoorScraper extends GoogleCustomSearchScraper {
 
+    @Value("${countryWithJavaException}")
+    protected String countryWithJavaException;
+    @Value("${glassdoorMonthSpecification}")
+    private String glassdoorMonthSpecification;
+    @Value("${glassdoorMillionSpecification}")
+    private char glassdoorMillionSpecification;
+    @Value("${webPageFullUrlDelimiter}")
+    private String webPageFullUrlDelimiter;
+
     public GlassdoorScraper(){}
 
     @Override
     public int fetchWebpageUrl(){
-        String title = role.getFullRoleTitle();
-        title = title.replace(" ", "+");
+        String title = RoleUtil.getFullRoleTitle(role);
+        title = title.replace(" ", webPageFullUrlDelimiter);
         String searchUrl = source.getSearchUrl();
         String cityName = city.getName();
         String countryName = city.getCountry();
-        countryName = countryName.replace(" ", "+");
+        countryName = countryName.replace(" ", webPageFullUrlDelimiter);
         StringBuilder fullUrl = new StringBuilder(String.format("%s%s+%s,+%s", searchUrl, title, cityName,
                 countryName));
 
@@ -55,18 +66,18 @@ public class GlassdoorScraper extends GoogleCustomSearchScraper {
     @Override
     protected String findCorrectLink(String searchResults){
         JSONArray jsonResultLink = new JSONObject(searchResults)
-                .getJSONArray("items");
+                .getJSONArray(googleResultItemKey);
         String roleSeniority = role.getSeniority();
         String[] relevantBadWords = ArrayUtils.removeElement(badWords, roleSeniority);
 
-        // Zagreb has no junior developer entry in glassdoor so we accept "junior java developer"
-        if (this.city.getName().equals("Zagreb")){
+        // No junior developer entry in glassdoor so we accept "junior java developer"
+        if (this.city.getName().equals(countryWithJavaException)){
             relevantBadWords = ArrayUtils.removeElement(relevantBadWords, "Java");
         }
         int correctSearchResultIndex = 0;
         for (int i=0; i < 10; i++){
             boolean noBadWords = true;
-            String pageTitle = jsonResultLink.getJSONObject(i).getString("title");
+            String pageTitle = jsonResultLink.getJSONObject(i).getString(googleResultTitleKey);
             if (!pageTitle.contains(roleSeniority) && !pageTitle.contains(roleSeniority.toLowerCase())){
                 continue;
             }
@@ -86,7 +97,7 @@ public class GlassdoorScraper extends GoogleCustomSearchScraper {
             }
         }
         return jsonResultLink.getJSONObject(correctSearchResultIndex)
-                .getString("link");
+                .getString(googleResultUrlKey);
     }
 
     @Override
@@ -108,8 +119,8 @@ public class GlassdoorScraper extends GoogleCustomSearchScraper {
             Element monthOrAnnualElement = doc.getElementsByClass(source.getMonthOrAnnualElementClass()).first();
             assert monthOrAnnualElement != null;
             assert salaryElement != null;
-            if (monthOrAnnualElement.text().contains("mo")){
-                salaryText = salaryElement.text() + "per m";
+            if (monthOrAnnualElement.text().contains(glassdoorMonthSpecification)){
+                salaryText = salaryElement.text() + glassdoorMonthSpecification;
             } else {
                 salaryText = salaryElement.text();
             }
@@ -123,12 +134,12 @@ public class GlassdoorScraper extends GoogleCustomSearchScraper {
 
     public void parseSalaryText(String salaryText){
         boolean perMonth = false;
-        if (salaryText.contains("per m")){
+        if (salaryText.contains(glassdoorMonthSpecification)){
             perMonth = true;
             salaryText = salaryText.substring(0, salaryText.length()-5);
         }
-        // if ends with m then multiple by 1000000
-        if (salaryText.charAt(salaryText.length()-1) == 'M'){
+        // if millions specified with a character, convert to digits
+        if (salaryText.charAt(salaryText.length()-1) == glassdoorMillionSpecification){
             salaryText = salaryText.substring(0, salaryText.length()-1);
             salaryText += "000000";
         }
@@ -154,7 +165,7 @@ public class GlassdoorScraper extends GoogleCustomSearchScraper {
 
     @Override
     public String toString(){
-        return String.format("GoogleCustomSearchScraper %s, %s, %s", role.getFullRoleTitle(),
+        return String.format("GoogleCustomSearchScraper %s, %s, %s", RoleUtil.getFullRoleTitle(role),
                 city.getName(), source.getName());
     }
 }

@@ -7,12 +7,14 @@ import fyi.incomeoutcome.salarytaxspend.repository.CityRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.SpendRepository;
 import fyi.incomeoutcome.salarytaxspend.repository.source.SpendSourceRepository;
 
+import fyi.incomeoutcome.salarytaxspend.util.SpendUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -30,39 +32,21 @@ public class SpendFetchingService implements DataFetchingService {
     @Autowired
     private SpendSourceRepository spendSourceRepository;
     private SpendSource spendSource;
-    private HashMap<String, String> spendsSelector = new HashMap<>();
+    private HashMap<String, String> spendSelector = new HashMap<>();
+
+    @Value("${spendDefaultCurrencyCode}")
+    private String spendDefaultCurrencyCode;
+    @Value("${spendDefaultCurrencySymbol}")
+    private String spendDefaultCurrencySymbol;
+    @Value("${spendSiteId}")
+    private long spendSiteId;
 
     public SpendFetchingService() {
     }
 
     @PostConstruct
     public void init(){
-        this.spendSource = spendSourceRepository.findById(1);
-
-        spendsSelector.put("oneBedRent", this.spendSource.getOneBedRentSelector());
-        spendsSelector.put("utilities", this.spendSource.getUtilitiesSelector());
-        spendsSelector.put("internet", this.spendSource.getInternetSelector());
-
-        spendsSelector.put("milkLiter", this.spendSource.getMilkLiterSelector());
-        spendsSelector.put("eggs", this.spendSource.getEggsSelector());
-        spendsSelector.put("shopBeer", this.spendSource.getShopBeerSelector());
-        spendsSelector.put("apples", this.spendSource.getApplesSelector());
-        spendsSelector.put("bananas", this.spendSource.getBananasSelector());
-        spendsSelector.put("chicken", this.spendSource.getChickenSelector());
-        spendsSelector.put("onions", this.spendSource.getOnionsSelector());
-        spendsSelector.put("potatoes", this.spendSource.getPotatoesSelector());
-        spendsSelector.put("rice", this.spendSource.getRiceSelector());
-
-        spendsSelector.put("monthTransport", this.spendSource.getMonthTransportSelector());
-
-        spendsSelector.put("jeans", this.spendSource.getJeansSelector());
-        spendsSelector.put("summerDress", this.spendSource.getSummerDressSelector());
-
-        spendsSelector.put("mealForTwoOut", this.spendSource.getMealForTwoOutSelector());
-        spendsSelector.put("beerOut", this.spendSource.getBeerOutSelector());
-
-        spendsSelector.put("gym", this.spendSource.getGymSelector());
-        spendsSelector.put("cinema", this.spendSource.getCinemaSelector());
+        spendSelector = SpendUtil.getSpendSelector();
     }
 
     public void refreshAll(){
@@ -102,7 +86,7 @@ public class SpendFetchingService implements DataFetchingService {
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
         Spend spend = Spend.builder()
                 .city(city)
-                .currency("USD")
+                .currency(spendDefaultCurrencyCode)
                 .updatedOn(today)
                 .build();
         buildSpend(spend, spendPrices);
@@ -111,7 +95,7 @@ public class SpendFetchingService implements DataFetchingService {
 
     public HashMap<String, Double> parseSpends(Document spendPage){
         HashMap<String, Double> spendPrices = new HashMap<>();
-        spendsSelector.forEach(
+        spendSelector.forEach(
                 (key, value) -> spendPrices.put(key, parsePrice(value, key, spendPage)));
         return spendPrices;
     }
@@ -120,7 +104,7 @@ public class SpendFetchingService implements DataFetchingService {
         double itemPriceDouble = 0.0;
         try {
             String itemPrice = spendPage.select(value).first().text();
-            itemPrice = itemPrice.replace("$", "").replace(",", "");
+            itemPrice = itemPrice.replace(spendDefaultCurrencySymbol, "").replace(",", "");
             itemPriceDouble = Double.parseDouble(itemPrice);
         } catch (NumberFormatException | NullPointerException e) {
             log.error("Price not found for " + key);
