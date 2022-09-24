@@ -2,16 +2,18 @@ package fyi.incomeoutcome.salarytaxspend.util;
 
 import fyi.incomeoutcome.salarytaxspend.data.Salary;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class SalaryUtil {
 
     @Value("${daysPerConversion}")
-    private static int daysPerCompensation;
+    private int daysPerCompensation;
 
-    public static boolean dueNewCompensation(Salary salary){
+    public boolean dueNewCompensation(Salary salary){
         if (salary.getUpdatedOn() == null){
             return true;
         }

@@ -31,6 +31,9 @@ public class SpendFetchingService implements DataFetchingService {
     private SpendRepository spendRepository;
     @Autowired
     private SpendSourceRepository spendSourceRepository;
+    @Autowired
+    private SpendUtil spendUtil;
+
     private SpendSource spendSource;
     private HashMap<String, String> spendSelector = new HashMap<>();
 
@@ -46,7 +49,7 @@ public class SpendFetchingService implements DataFetchingService {
 
     @PostConstruct
     public void init(){
-        spendSelector = SpendUtil.getSpendSelector();
+        spendSelector = spendUtil.getSpendSelector();
     }
 
     public void refreshAll(){

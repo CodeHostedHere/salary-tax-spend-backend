@@ -5,99 +5,109 @@ import fyi.incomeoutcome.salarytaxspend.data.source.SpendSource;
 import fyi.incomeoutcome.salarytaxspend.repository.source.SpendSourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
+@Slf4j
+@PropertySource(value = "classpath:application.properties")
+@Component
 public class SpendUtil {
 
     @Autowired
-    private static SpendSourceRepository spendSourceRepository;
-    private static SpendSource spendSource;
+    private SpendSourceRepository spendSourceRepository;
+
+    private SpendSource spendSource;
 
     @Value("${spendSiteId}")
-    private static long spendSiteId;
+    private String spendSiteId;
+
 
     @Value("${oneBedRentKey}")
-    private static String oneBedRentKey;
+    private String oneBedRentKey;
     @Value("${utilitiesKey}")
-    private static String utilitiesKey;
+    private String utilitiesKey;
     @Value("${internetKey}")
-    private static String internetKey;
+    private String internetKey;
     @Value("${milkLiterKey}")
-    private static String milkLiterKey;
+    private String milkLiterKey;
     @Value("${eggsKey}")
-    private static String eggsKey;
+    private String eggsKey;
     @Value("${shopBeerKey}")
-    private static String shopBeerKey;
+    private String shopBeerKey;
     @Value("${applesKey}")
-    private static String applesKey;
+    private  String applesKey;
     @Value("${bananasKey}")
-    private static String bananasKey;
+    private  String bananasKey;
     @Value("${chickenKey}")
-    private static String chickenKey;
+    private  String chickenKey;
     @Value("${onionsKey}")
-    private static String onionsKey;
+    private  String onionsKey;
     @Value("${potatoesKey}")
-    private static String potatoesKey;
-    @Value("${riceKe}")
-    private static String riceKey;
+    private  String potatoesKey;
+    @Value("${riceKey}")
+    private  String riceKey;
     @Value("${monthTransportKey}")
-    private static String monthTransportKey;
+    private  String monthTransportKey;
     @Value("${jeansKey}")
-    private static String jeansKey;
+    private  String jeansKey;
     @Value("${summerDressKey}")
-    private static String summerDressKey;
+    private  String summerDressKey;
     @Value("${mealForTwoOutKey}")
-    private static String mealForTwoOutKey;
+    private  String mealForTwoOutKey;
     @Value("${beerOutKey}")
-    private static String beerOutKey;
+    private  String beerOutKey;
     @Value("${gymKey}")
-    private static String gymKey;
+    private  String gymKey;
     @Value("${cinemaKey}")
-    private static String cinemaKey;
+    private  String cinemaKey;
 
     @Value("${oneBedRentLabel}")
-    private static String oneBedRentLabel;
+    private  String oneBedRentLabel;
     @Value("${utilitiesLabel}")
-    private static String utilitiesLabel;
+    private  String utilitiesLabel;
     @Value("${internetLabel}")
-    private static String internetLabel;
+    private  String internetLabel;
     @Value("${milkLiterLabel}")
-    private static String milkLiterLabel;
+    private  String milkLiterLabel;
     @Value("${eggsLabel}")
-    private static String eggsLabel;
+    private  String eggsLabel;
     @Value("${shopBeerLabel}")
-    private static String shopBeerLabel;
+    private  String shopBeerLabel;
     @Value("${applesLabel}")
-    private static String applesLabel;
+    private  String applesLabel;
     @Value("${bananasLabel}")
-    private static String bananasLabel;
+    private  String bananasLabel;
     @Value("${chickenLabel}")
-    private static String chickenLabel;
+    private  String chickenLabel;
     @Value("${onionsLabel}")
-    private static String onionsLabel;
+    private  String onionsLabel;
     @Value("${potatoesLabel}")
-    private static String potatoesLabel;
+    private  String potatoesLabel;
     @Value("${riceLabel}")
-    private static String riceLabel;
+    private  String riceLabel;
     @Value("${monthTransportLabel}")
-    private static String monthTransportLabel;
+    private  String monthTransportLabel;
     @Value("${jeansLabel}")
-    private static String jeansLabel;
+    private  String jeansLabel;
     @Value("${summerDressLabel}")
-    private static String summerDressLabel;
+    private  String summerDressLabel;
     @Value("${mealForTwoOutLabel}")
-    private static String mealForTwoOutLabel;
+    private  String mealForTwoOutLabel;
     @Value("${beerOutLabel}")
-    private static String beerOutLabel;
+    private  String beerOutLabel;
     @Value("${gymLabel}")
-    private static String gymLabel;
+    private  String gymLabel;
     @Value("${cinemaLabel}")
-    private static String cinemaLabel;
+    private  String cinemaLabel;
 
 
-    public static HashMap<String, Double> getPricesToConvert(Spend spend){
+    public  HashMap<String, Double> getPricesToConvert(Spend spend){
         HashMap<String, Double> pricesToConvert = new HashMap<>();
         pricesToConvert.put(oneBedRentKey, spend.getOneBedRent());
         pricesToConvert.put(utilitiesKey, spend.getUtilities());
@@ -120,9 +130,17 @@ public class SpendUtil {
         return pricesToConvert;
     }
 
-    public static HashMap<String, String> getSpendSelector(){
+    public  HashMap<String, String> getSpendSelector(){
         HashMap<String, String> spendSelector = new HashMap<>();
-        spendSource = spendSourceRepository.findById(spendSiteId);
+        log.info("-------------"+spendSiteId+"-------------");
+        Long l = Long.parseLong(spendSiteId);
+
+        Optional<SpendSource> spendSourceOptional = spendSourceRepository.findById(l);
+        if (spendSourceOptional.isPresent()){
+            spendSource = spendSourceOptional.get();
+        } else {
+            log.error("No spend source found for the id of " + spendSiteId);
+        }
 
         spendSelector.put(oneBedRentKey, spendSource.getOneBedRentSelector());
         spendSelector.put(utilitiesKey, spendSource.getUtilitiesSelector());
@@ -146,7 +164,7 @@ public class SpendUtil {
         return spendSelector;
     }
 
-    public static ArrayList<Object[]> getSpendTableValues(Spend spend){
+    public  ArrayList<Object[]> getSpendTableValues(Spend spend){
         // A victim of not having an ExpenseItem object with its own logic
         ArrayList<Object[]> rowList = new ArrayList<>();
         rowList.add(new Object[]{oneBedRentLabel, spend.getOneBedRentConverted(), spend.getOneBedRentQty()});

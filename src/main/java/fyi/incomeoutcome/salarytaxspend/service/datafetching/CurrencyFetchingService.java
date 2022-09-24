@@ -41,6 +41,8 @@ public class CurrencyFetchingService implements DataFetchingService {
     private TaxRepository taxRepository;
     @Autowired
     private SpendRepository spendRepository;
+    @Autowired
+    private SpendUtil spendUtil;
 
     @Value("${currencySiteId}")
     private long currencySiteId;
@@ -69,7 +71,7 @@ public class CurrencyFetchingService implements DataFetchingService {
     }
 
     private void setConvertedSpend(Spend spend, java.sql.Date today){
-        HashMap<String, Double> pricesToConvert = SpendUtil.getPricesToConvert(spend);
+        HashMap<String, Double> pricesToConvert = spendUtil.getPricesToConvert(spend);
         String currencyUsed = spend.getCurrency();
         log.info("Starting conversion of spend for city " + spend.getCity());
         for(Map.Entry<String,Double> priceToConvert: pricesToConvert.entrySet()){

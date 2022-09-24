@@ -4,16 +4,18 @@ import fyi.incomeoutcome.salarytaxspend.data.Salary;
 import fyi.incomeoutcome.salarytaxspend.data.Tax;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Component
 public class TaxUtil {
 
     @Value("${daysPerTaxRecord}")
-    private static int daysPerTaxRecord;
+    private int daysPerTaxRecord;
 
-    public static boolean dueNewTax(Tax tax){
+    public boolean dueNewTax(Tax tax){
         Salary relatedSalary = tax.getSalary();
         long compensationLastUpdated = relatedSalary.getUpdatedOn().getTime();
         long taxLastUpdated = tax.getUpdatedOn().getTime();

@@ -1,8 +1,11 @@
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/SalaryTaxSpendApplication.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/controller/RoleController.java
+/Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/util/TaxUtil.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/SpendFetchingService.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/CurrencyFetchingService.java
+/Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/util/SpendUtil.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/DataFetchingService.java
+/Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/util/SalaryUtil.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/data/Role.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/data/Salary.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/repository/RoleRepository.java
@@ -18,6 +21,7 @@
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/TaxFetchingService.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/service/scraper/GlassdoorScraper.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/controller/SalaryController.java
+/Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/util/RoleUtil.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/data/Tax.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/repository/CityRepository.java
 /Users/glacey/coding/salary-tax-spend-backend/src/main/java/fyi/incomeoutcome/salarytaxspend/repository/TaxRepository.java

@@ -32,6 +32,9 @@ public class TaxFetchingService implements DataFetchingService {
     private TaxRepository taxRepository;
     @Autowired
     private SalaryRepository salaryRepository;
+    @Autowired
+    private TaxUtil taxUtil;
+
     private ChromeDriver driver;
 
     @Value("${taxSourceId}")
@@ -79,7 +82,7 @@ public class TaxFetchingService implements DataFetchingService {
             boolean taxRequired = false;
             if (taxRecordOptional.isPresent()){
                 Tax taxRecord = taxRecordOptional.get();
-                if (TaxUtil.dueNewTax(taxRecord)){
+                if (taxUtil.dueNewTax(taxRecord)){
                     log.debug(String.format("Tax for salary %s out of date", salary));
                     taxRequired = true;
                 }

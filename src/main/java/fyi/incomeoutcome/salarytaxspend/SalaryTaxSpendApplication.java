@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("fyi.incomeoutcome.salarytaxspend.data")
 @ComponentScan("fyi.incomeoutcome.salarytaxspend.service")
+@ComponentScan("fyi.incomeoutcome.salarytaxspend.util")
+
 
 
 @SpringBootApplication
