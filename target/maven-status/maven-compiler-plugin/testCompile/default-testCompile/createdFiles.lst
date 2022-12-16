@@ -1,4 +1,2 @@
-fyi/incomeoutcome/salarytaxspend/salary/salarysite/SalarySourceTest.class
-fyi/incomeoutcome/salarytaxspend/salary/SalaryTest.class
-fyi/incomeoutcome/salarytaxspend/city/CityTest.class
-fyi/incomeoutcome/salarytaxspend/salary/service/GoogleSearchScraperTest.class
+fyi/incomeoutcome/salarytaxspend/SalaryTaxSpendApplicationTest.class
+fyi/incomeoutcome/salarytaxspend/service/datafetching/CurrencyFetchingServiceTest.class
