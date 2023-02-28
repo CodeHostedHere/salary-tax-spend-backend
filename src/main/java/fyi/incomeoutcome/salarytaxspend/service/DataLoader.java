@@ -17,17 +17,18 @@ public class DataLoader {
     @Autowired
     private SpendFetchingService spendFetchingService;
     @Autowired
-    private CurrencyFetchingService currencyService;
+    private CurrencyFetchingService currencyFetchingService;
     @Autowired
     private TaxFetchingService taxFetchingService;
     @Autowired
-    private SalaryFetchingService salaryService;
+    private SalaryFetchingService salaryFetchingService;
 
     @PostConstruct
     public void initialDataLoad() {
-        salaryService.refreshAll();
-        taxFetchingService.refreshAll();
-        spendFetchingService.refreshAll();
-        currencyService.refreshAll();
+        long currentTime = System.currentTimeMillis();
+        salaryFetchingService.refreshAll(currentTime);
+        taxFetchingService.refreshAll(currentTime);
+        spendFetchingService.refreshAll(currentTime);
+        currencyFetchingService.refreshAll(currentTime);
     }
 }

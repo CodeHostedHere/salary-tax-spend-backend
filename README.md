@@ -3,8 +3,9 @@
 
 ## General Description
 
-A short project to learn Spring boot. Gets developer salary at 3 experience levels, tax, expenses costs and creates a short budget to compare the savings you would have as a developer in different countries.
+A short project to familiarise myself with Spring boot, Junit, Mockito, and Selenium. Gets developer salary at 3 experience levels, tax, expenses costs and creates a short budget to compare the savings you would have as a developer in different countries.
 
+There are inefficiencies which I have not optimised, instead leaving a comment to highlight them. The focus of the project is to gain familiarity with a few libraries so I'm fine to leave it not being as efficient as possible.
 
 
 ### Operation
@@ -20,8 +21,3 @@ A short project to learn Spring boot. Gets developer salary at 3 experience leve
 ### Setup
 
 This setup requires a MySQL DB, API Keys for Google Custom search and a Currency Exchange API so I reckon it's too arduous to setup and play around with for any given reviewer.
-
-
-### Tests
-Initially, this had been planned to be a project to learn JUnit and Mockito too. After having gone travelling for two months, my desire to continue working on this project has dwindled and 
-I will be creating a different project instead to learn these libraries.

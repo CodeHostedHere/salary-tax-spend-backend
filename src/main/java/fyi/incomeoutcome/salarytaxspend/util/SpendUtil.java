@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @PropertySource(value = "classpath:application.properties")
@@ -188,5 +189,11 @@ public class SpendUtil {
         rowList.add(new Object[]{cinemaLabel, spend.getCinemaConverted(), spend.getCinemaQty()});
 
         return rowList;
+    }
+
+    public boolean dueNewSpend(Spend spend, long currentTime){
+        long lastUpdated = spend.getUpdatedOn().getTime();
+        long daysSinceLastUpdate = TimeUnit.DAYS.convert(currentTime-lastUpdated, TimeUnit.MILLISECONDS);
+        return daysSinceLastUpdate > 365;
     }
 }

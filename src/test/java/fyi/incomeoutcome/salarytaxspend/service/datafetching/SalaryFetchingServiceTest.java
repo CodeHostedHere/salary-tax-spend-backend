@@ -1,0 +1,86 @@
+package fyi.incomeoutcome.salarytaxspend.service.datafetching;
+
+import fyi.incomeoutcome.salarytaxspend.data.City;
+import fyi.incomeoutcome.salarytaxspend.data.Role;
+import fyi.incomeoutcome.salarytaxspend.data.Salary;
+import fyi.incomeoutcome.salarytaxspend.data.source.SalarySource;
+import fyi.incomeoutcome.salarytaxspend.repository.CityRepository;
+import fyi.incomeoutcome.salarytaxspend.repository.RoleRepository;
+import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
+import fyi.incomeoutcome.salarytaxspend.repository.source.SalarySourceRepository;
+import fyi.incomeoutcome.salarytaxspend.service.scraper.GlassdoorScraper;
+import fyi.incomeoutcome.salarytaxspend.util.SalaryUtil;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static net.bytebuddy.matcher.ElementMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(SpringExtension.class)
+class SalaryFetchingServiceTest {
+
+    @Mock
+    SalaryRepository salaryRepository;
+    @Mock
+    CityRepository cityRepository;
+    @Mock
+    SalarySourceRepository salarySourceRepository;
+    @Mock
+    RoleRepository roleRepository;
+    @Mock
+    GlassdoorScraper glassdoorScraper;
+    @Mock
+    SalaryUtil salaryUtil;
+
+    @InjectMocks
+    SalaryFetchingService salaryFetchingService;
+
+    @BeforeAll
+    static void init() {
+
+    }
+
+    @Test
+    void refreshAllTest() {
+        SalarySource salarySource = new SalarySource("test", "searchUrl", "salaryElement", "monthOrAnnualElement");
+        List<SalarySource> salarySourceList = Arrays.asList(salarySource);
+        Role roleOne = new Role("Senior", "Software Engineer");
+        Role roleTwo = new Role("Junior", "Software Engineer");
+        List<Role> roleList = Arrays.asList(roleOne, roleTwo);
+        City cityOne = new City("Dublin", "Ireland");
+        City cityTwo = new City("Berlin", "Germany");
+        City cityThree = new City("Zurich", "Switzerland");
+        List<City> cityList = Arrays.asList(cityOne, cityTwo, cityThree);
+        Optional<Salary> emptySalary = Optional.empty();
+        Salary salaryOne = new Salary(30000, roleOne, cityOne, salarySource, "EUR");
+        Optional<Salary> foundSalaryUnconverted = Optional.of(salaryOne);
+        long currentTime = System.currentTimeMillis();
+
+        when(salarySourceRepository.findAll()).thenReturn(salarySourceList);
+        when(salaryRepository.findBySourceAndCityAndRole(salarySource,  cityOne, roleOne))
+                .thenReturn(foundSalaryUnconverted)
+                .thenReturn(emptySalary);
+        when(roleRepository.findAll()).thenReturn(roleList);
+        when(cityRepository.findAll()).thenReturn(cityList);
+        when(salaryUtil.dueNewCompensation(salaryOne, currentTime)).thenReturn(true);
+
+        SalaryFetchingService spySFS = spy(salaryFetchingService);
+        currentTime = System.currentTimeMillis();
+        spySFS.refreshAll(currentTime);
+        verify(spySFS, Mockito.times(1)).refreshAll(currentTime);
+        verify(salaryUtil, Mockito.times(1)).dueNewCompensation(salaryOne, currentTime);
+    }
+}

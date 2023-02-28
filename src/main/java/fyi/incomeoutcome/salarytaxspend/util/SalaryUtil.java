@@ -13,13 +13,12 @@ public class SalaryUtil {
     @Value("${daysPerConversion}")
     private int daysPerCompensation;
 
-    public boolean dueNewCompensation(Salary salary){
+    public boolean dueNewCompensation(Salary salary, long currentTime){
         if (salary.getUpdatedOn() == null){
             return true;
         }
         Date lastUpdated = new java.util.Date(salary.getUpdatedOn().getTime());
-        Date today = new Date(System.currentTimeMillis());
-        long diffInMs = today.getTime() - lastUpdated.getTime();
+        long diffInMs = currentTime - lastUpdated.getTime();
         long daysSinceLastCompensation = TimeUnit.DAYS.convert(diffInMs, TimeUnit.MILLISECONDS);
         return (daysSinceLastCompensation > daysPerCompensation);
     }

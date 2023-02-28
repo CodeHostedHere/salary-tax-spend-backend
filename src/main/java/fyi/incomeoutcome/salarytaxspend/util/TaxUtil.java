@@ -15,17 +15,16 @@ public class TaxUtil {
     @Value("${daysPerTaxRecord}")
     private int daysPerTaxRecord;
 
-    public boolean dueNewTax(Tax tax){
+    public boolean dueNewTax(Tax tax, long currentTime){
         Salary relatedSalary = tax.getSalary();
         long compensationLastUpdated = relatedSalary.getUpdatedOn().getTime();
         long taxLastUpdated = tax.getUpdatedOn().getTime();
-        long today = System.currentTimeMillis();
-        long daysSinceLastTaxUpdate = TimeUnit.DAYS.convert(today-taxLastUpdated, TimeUnit.MILLISECONDS);
+        long daysSinceLastTaxUpdate = TimeUnit.DAYS.convert(currentTime-taxLastUpdated, TimeUnit.MILLISECONDS);
         boolean taxNeverUpdated = taxLastUpdated == 0;
-        boolean taxIsForOldCompenstion = compensationLastUpdated > taxLastUpdated;
+        boolean taxIsForOldCompensation = compensationLastUpdated > taxLastUpdated;
         boolean taxIsForLastYear = daysSinceLastTaxUpdate > daysPerTaxRecord;
         log.debug(String.format("For country %s, taxNeverUpdated %b, taxIsForOldCompensation %b ,taxIsForLastYear %b",
-                relatedSalary.getCountry(), taxNeverUpdated, taxIsForOldCompenstion, taxIsForLastYear));
-        return (taxNeverUpdated || taxIsForOldCompenstion || taxIsForLastYear );
+                relatedSalary.getCountry(), taxNeverUpdated, taxIsForOldCompensation, taxIsForLastYear));
+        return (taxNeverUpdated || taxIsForOldCompensation || taxIsForLastYear );
     }
 }

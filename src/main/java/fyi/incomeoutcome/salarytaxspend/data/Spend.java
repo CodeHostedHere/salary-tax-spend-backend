@@ -18,12 +18,6 @@ import java.util.concurrent.TimeUnit;
 @Entity
 public class Spend {
 
-    // Spend shouldn’t have hardcoded string representations. Should have broken 'Spend' in to ‘ExpenseItem’ objects with
-    // string representations for internationalisation. Current form has fields, Converted fields and Qty fields
-    // without a coded relationship to confirm their logical relationship.
-
-    // Spend should probably be named something more informative, like ExpenseList
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
@@ -114,13 +108,12 @@ public class Spend {
     private double gymQty;
     private double cinemaQty;
 
-    public boolean dueNewSpend(){
-        Long today = System.currentTimeMillis();
-        Long lastUpdated = this.updatedOn.getTime();
-        long daysSinceLastUpdate = TimeUnit.DAYS.convert(today-lastUpdated, TimeUnit.MILLISECONDS);
-        return daysSinceLastUpdate > 365;
+    public Spend(City city, String currencyCode, java.sql.Date updatedOn, java.sql.Date convertedOn){
+        this.city = city;
+        this.currency = currencyCode;
+        this.updatedOn = updatedOn;
+        this.convertedOn = convertedOn;
+
     }
-
-
 
 }

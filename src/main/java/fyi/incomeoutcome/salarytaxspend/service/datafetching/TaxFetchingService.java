@@ -23,17 +23,32 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Using one website for tax calculation, gets the tax associated with a salary in a city
+ * This class should use a webscraper with rendered javascript for speed and removal of UI dependencies,
+ * but it uses Selenium instead.
+ * This is to gain familiarity with this testing library.
+ *
+ * @author glacey
+ */
 @Slf4j
 @Component
 public class TaxFetchingService implements DataFetchingService {
-    @Autowired
+
     private TaxSourceRepository taxSourceRepository;
-    @Autowired
     private TaxRepository taxRepository;
-    @Autowired
     private SalaryRepository salaryRepository;
-    @Autowired
     private TaxUtil taxUtil;
+
+    @Autowired
+    public TaxFetchingService(TaxSourceRepository taxSourceRepository, TaxRepository taxRepository,
+                              SalaryRepository salaryRepository, TaxUtil taxUtil){
+
+        this.taxSourceRepository = taxSourceRepository;
+        this.taxRepository = taxRepository;
+        this.salaryRepository = salaryRepository;
+        this.taxUtil = taxUtil;
+    }
 
     private ChromeDriver driver;
 
@@ -67,22 +82,32 @@ public class TaxFetchingService implements DataFetchingService {
     public TaxFetchingService(){
     }
 
-    public void setupDriver(){
+    /**
+     * Completes setup required to run a chromedriver using WebDriverManager library
+     */
+    private void setupDriver(){
         if (this.driver == null){
             WebDriverManager.chromedriver().setup();
             this.driver = new ChromeDriver();
         }
     }
 
-    public void refreshAll(){
+    /**
+     * Fetches each salary from the database and checks if it has a tax record, or if its tax record has expired.
+     *
+     * @param currentTime time function is called in milliseconds
+     */
+    public void refreshAll(long currentTime){
         List<Salary> salaryList =  new ArrayList<>();
         salaryRepository.findAll().forEach(salaryList::add);
+        // Todo: Compare vs large query of tax records with salary ids, to see if they are present +
+        //       query of salary records with records due for conversion
         for (Salary salary: salaryList){
             var taxRecordOptional = taxRepository.findBySalary(salary);
             boolean taxRequired = false;
             if (taxRecordOptional.isPresent()){
                 Tax taxRecord = taxRecordOptional.get();
-                if (taxUtil.dueNewTax(taxRecord)){
+                if (taxUtil.dueNewTax(taxRecord, currentTime)){
                     log.debug(String.format("Tax for salary %s out of date", salary));
                     taxRequired = true;
                 }
@@ -98,7 +123,13 @@ public class TaxFetchingService implements DataFetchingService {
         }
     }
 
-    public double getTaxPayable(Salary salary){
+    /**
+     * Runs a chrome webdriver to interact with the tax source site, enter required details and scrape the new salary
+     *
+     * @param salary a salary object which requires a new tax record
+     * @return double of the tax payable on the salary
+     */
+    private double getTaxPayable(Salary salary){
         setupDriver();
         TaxSource taxSite = taxSourceRepository.findById(taxSourceId);
         String countryLower = salary.getCountry().toLowerCase();
@@ -138,7 +169,7 @@ public class TaxFetchingService implements DataFetchingService {
         return taxPayableDouble;
     }
 
-    public double getGermanTaxPayable(Salary salary){
+    private double getGermanTaxPayable(Salary salary){
         WebElement salaryInput = driver.findElement(By.id(germanSalaryInput));
         JavascriptExecutor jExec = driver;
         String executionScript = String.format(jsEnterValueScript, salary.getCompensation());

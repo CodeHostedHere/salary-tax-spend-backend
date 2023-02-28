@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.persistence.*;
 
 @Slf4j
-@ToString
 @NoArgsConstructor
 @Entity
 public class  Salary {
@@ -47,7 +46,7 @@ public class  Salary {
         this.currency = currency;
         this.updatedOn = new java.sql.Date(System.currentTimeMillis());
         this.compensationConverted = 0;
-        this.convertedOn = java.sql.Date.valueOf(taxNeverSetDate);
+        this.convertedOn = java.sql.Date.valueOf("1970-01-01");
     }
 
     public void setCompensationConverted(double currencyConverted){
@@ -74,4 +73,9 @@ public class  Salary {
     @JsonIgnore
     public java.sql.Date getUpdatedOn(){ return this.updatedOn; }
 
+    public String toNewString() {
+        String stringRepresentation = this.role.toString() + " " + this.city
+                + " " +String.valueOf(this.compensation);
+        return stringRepresentation;
+    }
 }

@@ -25,13 +25,9 @@ import java.util.*;
 @Component
 public class SpendFetchingService implements DataFetchingService {
 
-    @Autowired
     private CityRepository cityRepository;
-    @Autowired
     private SpendRepository spendRepository;
-    @Autowired
     private SpendSourceRepository spendSourceRepository;
-    @Autowired
     private SpendUtil spendUtil;
 
     private SpendSource spendSource;
@@ -47,20 +43,30 @@ public class SpendFetchingService implements DataFetchingService {
     public SpendFetchingService() {
     }
 
+    @Autowired
+    public SpendFetchingService(CityRepository cityRepository, SpendRepository spendRepository,
+                                SpendSourceRepository spendSourceRepository, SpendUtil spendUtil,
+                                SpendSource spendSource) {
+        this.cityRepository = cityRepository;
+        this.spendRepository = spendRepository;
+        this.spendSourceRepository = spendSourceRepository;
+        this.spendUtil = spendUtil;
+        this.spendSource = spendSource;
+    }
+
     @PostConstruct
     public void init(){
         spendSelector = spendUtil.getSpendSelector();
     }
 
-    public void refreshAll(){
+    public void refreshAll(long currentTime){
         ArrayList<City> cityList = new ArrayList<>(cityRepository.findAll());
         for (City city: cityList){
             var spendRecordOptional = spendRepository.findByCity(city);
-            boolean requiresUpdate = spendRecordOptional.isEmpty();
+            boolean requiresUpdate = true;
             if (spendRecordOptional.isPresent()){
-
                 Spend spend = spendRecordOptional.get();
-                requiresUpdate = spend.dueNewSpend();
+                requiresUpdate = spendUtil.dueNewSpend(spend, currentTime);
             } else {
                 log.info(String.format("Spend for City %s not found", city));
             }
@@ -96,7 +102,7 @@ public class SpendFetchingService implements DataFetchingService {
         spendRepository.save(spend);
     }
 
-    public HashMap<String, Double> parseSpends(Document spendPage){
+    private HashMap<String, Double> parseSpends(Document spendPage){
         HashMap<String, Double> spendPrices = new HashMap<>();
         spendSelector.forEach(
                 (key, value) -> spendPrices.put(key, parsePrice(value, key, spendPage)));
