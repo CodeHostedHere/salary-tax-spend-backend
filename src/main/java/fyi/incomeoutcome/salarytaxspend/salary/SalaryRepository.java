@@ -2,7 +2,6 @@ package fyi.incomeoutcome.salarytaxspend.salary;
 
 import fyi.incomeoutcome.salarytaxspend.city.City;
 import fyi.incomeoutcome.salarytaxspend.role.Role;
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

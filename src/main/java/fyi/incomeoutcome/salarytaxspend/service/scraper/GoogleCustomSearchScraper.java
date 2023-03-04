@@ -3,7 +3,7 @@ package fyi.incomeoutcome.salarytaxspend.service.scraper;
 import fyi.incomeoutcome.salarytaxspend.city.City;
 import fyi.incomeoutcome.salarytaxspend.role.Role;
 import fyi.incomeoutcome.salarytaxspend.salary.Salary;
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
+import fyi.incomeoutcome.salarytaxspend.salary.SalarySource;
 import fyi.incomeoutcome.salarytaxspend.salary.SalaryRepository;
 import fyi.incomeoutcome.salarytaxspend.role.RoleUtil;
 

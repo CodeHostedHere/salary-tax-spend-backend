@@ -1,6 +1,6 @@
-package fyi.incomeoutcome.salarytaxspend.salarysource;
+package fyi.incomeoutcome.salarytaxspend.salary;
 
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
+import fyi.incomeoutcome.salarytaxspend.salary.SalarySource;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
 

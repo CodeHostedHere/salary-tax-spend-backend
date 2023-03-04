@@ -2,7 +2,6 @@ package fyi.incomeoutcome.salarytaxspend.salary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fyi.incomeoutcome.salarytaxspend.city.City;
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
 import fyi.incomeoutcome.salarytaxspend.tax.Tax;
 import fyi.incomeoutcome.salarytaxspend.role.Role;
 import lombok.NoArgsConstructor;

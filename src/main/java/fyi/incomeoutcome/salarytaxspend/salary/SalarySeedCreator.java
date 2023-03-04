@@ -5,8 +5,6 @@ import fyi.incomeoutcome.salarytaxspend.city.City;
 import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
 import fyi.incomeoutcome.salarytaxspend.role.Role;
 import fyi.incomeoutcome.salarytaxspend.role.RoleRepository;
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySourceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

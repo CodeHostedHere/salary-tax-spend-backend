@@ -2,7 +2,6 @@ package fyi.incomeoutcome.salarytaxspend.salary;
 
 import fyi.incomeoutcome.salarytaxspend.city.City;
 import fyi.incomeoutcome.salarytaxspend.role.Role;
-import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

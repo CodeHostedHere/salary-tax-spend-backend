@@ -1,4 +1,4 @@
-package fyi.incomeoutcome.salarytaxspend.salarysource;
+package fyi.incomeoutcome.salarytaxspend.salary;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
