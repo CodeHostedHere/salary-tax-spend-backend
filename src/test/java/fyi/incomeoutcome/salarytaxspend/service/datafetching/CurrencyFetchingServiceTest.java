@@ -1,22 +1,21 @@
 package fyi.incomeoutcome.salarytaxspend.service.datafetching;
 
-import fyi.incomeoutcome.salarytaxspend.data.Currency;
-import fyi.incomeoutcome.salarytaxspend.data.Role;
-import fyi.incomeoutcome.salarytaxspend.data.Salary;
-import fyi.incomeoutcome.salarytaxspend.data.Tax;
-import fyi.incomeoutcome.salarytaxspend.repository.CurrencyRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.SpendRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.TaxRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.source.CurrencySourceRepository;
-import fyi.incomeoutcome.salarytaxspend.util.SpendUtil;
+import fyi.incomeoutcome.salarytaxspend.currency.Currency;
+import fyi.incomeoutcome.salarytaxspend.currency.CurrencyFetchingService;
+import fyi.incomeoutcome.salarytaxspend.salary.Salary;
+import fyi.incomeoutcome.salarytaxspend.tax.Tax;
+import fyi.incomeoutcome.salarytaxspend.currency.CurrencyRepository;
+import fyi.incomeoutcome.salarytaxspend.salary.SalaryRepository;
+import fyi.incomeoutcome.salarytaxspend.spend.SpendRepository;
+import fyi.incomeoutcome.salarytaxspend.tax.TaxRepository;
+import fyi.incomeoutcome.salarytaxspend.currency.CurrencySourceRepository;
+import fyi.incomeoutcome.salarytaxspend.spend.SpendUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;

@@ -1,13 +1,13 @@
 package fyi.incomeoutcome.salarytaxspend.service.datafetching;
 
-import fyi.incomeoutcome.salarytaxspend.data.City;
-import fyi.incomeoutcome.salarytaxspend.data.Spend;
-import fyi.incomeoutcome.salarytaxspend.data.source.SpendSource;
-import fyi.incomeoutcome.salarytaxspend.repository.CityRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.SpendRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.source.SpendSourceRepository;
-import fyi.incomeoutcome.salarytaxspend.util.SpendUtil;
+import fyi.incomeoutcome.salarytaxspend.city.City;
+import fyi.incomeoutcome.salarytaxspend.spend.Spend;
+import fyi.incomeoutcome.salarytaxspend.spend.SpendFetchingService;
+import fyi.incomeoutcome.salarytaxspend.spendsource.SpendSource;
+import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
+import fyi.incomeoutcome.salarytaxspend.spend.SpendRepository;
+import fyi.incomeoutcome.salarytaxspend.spendsource.SpendSourceRepository;
+import fyi.incomeoutcome.salarytaxspend.spend.SpendUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

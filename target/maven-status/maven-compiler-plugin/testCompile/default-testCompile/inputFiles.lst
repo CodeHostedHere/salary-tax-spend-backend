@@ -1,1 +1,5 @@
 /Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/CurrencyFetchingServiceTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/SpendFetchingServiceTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/util/RoleUtilTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/SalaryFetchingServiceTest.java
+/Users/glacey/coding/salary-tax-spend-backend/src/test/java/fyi/incomeoutcome/salarytaxspend/service/datafetching/TaxFetchingServiceTest.java

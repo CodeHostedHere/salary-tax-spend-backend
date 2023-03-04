@@ -1,11 +1,12 @@
 package fyi.incomeoutcome.salarytaxspend.service.datafetching;
 
-import fyi.incomeoutcome.salarytaxspend.data.Salary;
-import fyi.incomeoutcome.salarytaxspend.data.Tax;
-import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.TaxRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.source.TaxSourceRepository;
-import fyi.incomeoutcome.salarytaxspend.util.TaxUtil;
+import fyi.incomeoutcome.salarytaxspend.salary.Salary;
+import fyi.incomeoutcome.salarytaxspend.tax.Tax;
+import fyi.incomeoutcome.salarytaxspend.salary.SalaryRepository;
+import fyi.incomeoutcome.salarytaxspend.tax.TaxFetchingService;
+import fyi.incomeoutcome.salarytaxspend.tax.TaxRepository;
+import fyi.incomeoutcome.salarytaxspend.tax.TaxSourceRepository;
+import fyi.incomeoutcome.salarytaxspend.tax.TaxUtil;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,8 +14,6 @@ import org.mockito.Mock;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TaxFetchingServiceTest {
 

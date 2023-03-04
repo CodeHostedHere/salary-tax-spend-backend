@@ -1,16 +1,14 @@
 package fyi.incomeoutcome.salarytaxspend.service.datafetching;
 
-import fyi.incomeoutcome.salarytaxspend.data.City;
-import fyi.incomeoutcome.salarytaxspend.data.Role;
-import fyi.incomeoutcome.salarytaxspend.data.Salary;
-import fyi.incomeoutcome.salarytaxspend.data.source.SalarySource;
-import fyi.incomeoutcome.salarytaxspend.repository.CityRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.RoleRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.SalaryRepository;
-import fyi.incomeoutcome.salarytaxspend.repository.source.SalarySourceRepository;
+import fyi.incomeoutcome.salarytaxspend.city.City;
+import fyi.incomeoutcome.salarytaxspend.role.Role;
+import fyi.incomeoutcome.salarytaxspend.salary.*;
+import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
+import fyi.incomeoutcome.salarytaxspend.role.RoleRepository;
+import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySource;
+import fyi.incomeoutcome.salarytaxspend.salarysource.SalarySourceRepository;
 import fyi.incomeoutcome.salarytaxspend.service.scraper.GlassdoorScraper;
-import fyi.incomeoutcome.salarytaxspend.util.SalaryUtil;
-import org.hamcrest.CoreMatchers;
+import fyi.incomeoutcome.salarytaxspend.salary.SalaryUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static net.bytebuddy.matcher.ElementMatchers.any;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;

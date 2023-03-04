@@ -1,6 +1,6 @@
 package fyi.incomeoutcome.salarytaxspend.service.scraper;
 
-import fyi.incomeoutcome.salarytaxspend.util.RoleUtil;
+import fyi.incomeoutcome.salarytaxspend.role.RoleUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
