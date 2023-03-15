@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -113,4 +114,16 @@ public class Spend {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spend spend = (Spend) o;
+        return city.equals(spend.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(city);
+    }
 }

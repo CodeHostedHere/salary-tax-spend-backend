@@ -14,11 +14,14 @@ public interface SalaryRepository extends CrudRepository<Salary, Long> {
 
     List<Salary> findAll();
 
-    Optional<Salary> findBySourceAndCityAndRole(SalarySource salarySource, City city, Role role);
+    Optional<Salary> findBySalarySourceAndCityAndRole(SalarySource salarySource, City city, Role role);
 
     @Query("Select s FROM Salary s WHERE s.convertedOn < ?1 OR s.convertedOn is null")
     List<Salary> getRequiringConversion(java.sql.Date today);
 
     List<Salary> findByCityIdOrderByCityIdAsc(long cityid);
+
+    List<Salary> findByUpdatedOnLessThan(java.sql.Date givenDate);
+
 
 }

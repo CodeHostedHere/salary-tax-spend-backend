@@ -55,7 +55,7 @@ public abstract class GoogleCustomSearchScraper {
         String salaryText = parsePageForSalary();
         log.info(String.format("parseUrl for salary %s : %s", this.city, salaryText));
         parseSalaryText(salaryText);
-        return saveSalary();
+        return returnSalary();
     }
 
     protected String findCorrectLink(String searchResults){
@@ -90,10 +90,9 @@ public abstract class GoogleCustomSearchScraper {
                 .getString(googleResultUrlKey);
     }
     
-    protected Salary saveSalary(){
+    protected Salary returnSalary(){
         Salary scrapedSalary = new Salary(this.compensation, this.role, this.city, this.source, this.currency);
         log.info("saving " + scrapedSalary);
-        salaryRepo.save(scrapedSalary);
         return scrapedSalary;
     }
 

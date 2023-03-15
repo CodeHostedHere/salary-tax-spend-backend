@@ -3,6 +3,7 @@ package fyi.incomeoutcome.salarytaxspend.role;
 import fyi.incomeoutcome.salarytaxspend.salary.Salary;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,6 +16,7 @@ public class Role {
     private String roleName;
     @OneToMany(mappedBy="role", cascade = CascadeType.ALL)
     private Set<Salary> salaries;
+
 
     protected Role(){}
 
@@ -35,4 +37,16 @@ public class Role {
         return String.format("id=%d, %s %s", id, seniority, roleName);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return seniority.equals(role.seniority) && roleName.equals(role.roleName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(seniority, roleName);
+    }
 }

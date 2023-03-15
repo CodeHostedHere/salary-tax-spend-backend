@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 @Slf4j
 public class DataLoader {
-    @Autowired
+    /*@Autowired
     private SpendFetchingService spendFetchingService;
     @Autowired
     private CurrencyFetchingService currencyFetchingService;
@@ -23,12 +23,20 @@ public class DataLoader {
     private TaxFetchingService taxFetchingService;
     @Autowired
     private SalaryRefresher salaryRefresher;
+    @Autowired
+    private JobCreator jobCreator;
+    @Autowired
+    private CompensationCreator compensationCreator;
+    */@Autowired
+    private SalaryDataLoader salaryDataLoader;
 
 
     @PostConstruct
     public void dataLoad() {
         long currentTime = System.currentTimeMillis();
-        salaryRefresher.refreshAll(currentTime);/*
+        salaryDataLoader.loadData(currentTime);
+        //compensationCreator.createAll();
+        /*salaryRefresher.refreshAll(currentTime);
         salaryFetchingService.refreshAll(currentTime);
         taxFetchingService.refreshAll(currentTime);
         spendFetchingService.refreshAll(currentTime);

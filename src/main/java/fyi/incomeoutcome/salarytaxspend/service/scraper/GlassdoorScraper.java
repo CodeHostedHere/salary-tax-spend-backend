@@ -70,7 +70,7 @@ public class GlassdoorScraper extends GoogleCustomSearchScraper {
         String roleSeniority = role.getSeniority();
         String[] relevantBadWords = ArrayUtils.removeElement(badWords, roleSeniority);
 
-        // No junior developer entry in glassdoor so we accept "junior java developer"
+        // If there is no Junior Developer role for country, accept "junior java developer"
         if (this.city.getName().equals(countryWithJavaException)){
             relevantBadWords = ArrayUtils.removeElement(relevantBadWords, "Java");
         }

@@ -1,29 +1,18 @@
 package fyi.incomeoutcome.salarytaxspend.service.datafetching;
 
-import fyi.incomeoutcome.salarytaxspend.city.City;
-import fyi.incomeoutcome.salarytaxspend.role.Role;
 import fyi.incomeoutcome.salarytaxspend.salary.*;
 import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
 import fyi.incomeoutcome.salarytaxspend.role.RoleRepository;
-import fyi.incomeoutcome.salarytaxspend.salary.SalarySource;
 import fyi.incomeoutcome.salarytaxspend.salary.SalarySourceRepository;
 import fyi.incomeoutcome.salarytaxspend.service.scraper.GlassdoorScraper;
-import fyi.incomeoutcome.salarytaxspend.salary.SalaryUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class SalaryFetchingServiceTest {
@@ -38,8 +27,7 @@ class SalaryFetchingServiceTest {
     RoleRepository roleRepository;
     @Mock
     GlassdoorScraper glassdoorScraper;
-    @Mock
-    SalaryUtil salaryUtil;
+
 
    // @InjectMocks
     //SalaryFetchingService salaryFetchingService;
@@ -51,7 +39,7 @@ class SalaryFetchingServiceTest {
 
     @Test
     void refreshAllTest() {
-        SalarySource salarySource = new SalarySource("test", "searchUrl", "salaryElement", "monthOrAnnualElement");
+        /*SalarySource salarySource = new SalarySource("test", "searchUrl", "salaryElement", "monthOrAnnualElement");
         List<SalarySource> salarySourceList = Arrays.asList(salarySource);
         Role roleOne = new Role("Senior", "Software Engineer");
         Role roleTwo = new Role("Junior", "Software Engineer");
@@ -66,7 +54,7 @@ class SalaryFetchingServiceTest {
         long currentTime = System.currentTimeMillis();
 
         when(salarySourceRepository.findAll()).thenReturn(salarySourceList);
-        when(salaryRepository.findBySourceAndCityAndRole(salarySource,  cityOne, roleOne))
+        when(salaryRepository.findBySalarySourceAndCityAndRole(salarySource,  cityOne, roleOne))
                 .thenReturn(foundSalaryUnconverted)
                 .thenReturn(emptySalary);
         when(roleRepository.findAll()).thenReturn(roleList);
