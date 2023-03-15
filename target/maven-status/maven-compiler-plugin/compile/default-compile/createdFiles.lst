@@ -1,8 +1,6 @@
 fyi/incomeoutcome/salarytaxspend/role/RoleRepository.class
 fyi/incomeoutcome/salarytaxspend/spend/SpendController.class
-fyi/incomeoutcome/salarytaxspend/service/scraper/GlassdoorScraper.class
 fyi/incomeoutcome/salarytaxspend/salary/SalaryController.class
-fyi/incomeoutcome/salarytaxspend/service/DataLoader.class
 fyi/incomeoutcome/salarytaxspend/currency/Currency.class
 fyi/incomeoutcome/salarytaxspend/spendsource/SpendSourceRepository.class
 fyi/incomeoutcome/salarytaxspend/role/RoleUtil.class
@@ -12,9 +10,10 @@ fyi/incomeoutcome/salarytaxspend/tax/TaxRepository.class
 fyi/incomeoutcome/salarytaxspend/role/Role.class
 fyi/incomeoutcome/salarytaxspend/tax/TaxUtil.class
 fyi/incomeoutcome/salarytaxspend/tax/TaxController.class
-fyi/incomeoutcome/salarytaxspend/service/scraper/GoogleCustomSearchScraper.class
 fyi/incomeoutcome/salarytaxspend/currency/CurrencyFetchingService.class
+fyi/incomeoutcome/salarytaxspend/scraper/GlassdoorScraper.class
 fyi/incomeoutcome/salarytaxspend/currency/CurrencySource.class
+fyi/incomeoutcome/salarytaxspend/scraper/GoogleCustomSearchScraper.class
 fyi/incomeoutcome/salarytaxspend/spend/Spend.class
 fyi/incomeoutcome/salarytaxspend/role/RoleController.class
 fyi/incomeoutcome/salarytaxspend/spend/SpendUtil.class
@@ -22,7 +21,6 @@ fyi/incomeoutcome/salarytaxspend/salary/SalaryRepository.class
 fyi/incomeoutcome/salarytaxspend/tax/TaxSourceRepository.class
 fyi/incomeoutcome/salarytaxspend/salary/SalaryDataLoader.class
 fyi/incomeoutcome/salarytaxspend/salary/SalarySourceRepository.class
-fyi/incomeoutcome/salarytaxspend/service/datafetching/DataFetchingService.class
 fyi/incomeoutcome/salarytaxspend/currency/CurrencyRepository.class
 fyi/incomeoutcome/salarytaxspend/spend/Spend$SpendBuilder.class
 fyi/incomeoutcome/salarytaxspend/salary/SalarySource.class
@@ -30,6 +28,7 @@ fyi/incomeoutcome/salarytaxspend/spendsource/SpendSource.class
 fyi/incomeoutcome/salarytaxspend/salary/Salary.class
 fyi/incomeoutcome/salarytaxspend/tax/TaxFetchingService.class
 fyi/incomeoutcome/salarytaxspend/tax/TaxSource.class
+fyi/incomeoutcome/salarytaxspend/DataLoader.class
 fyi/incomeoutcome/salarytaxspend/tax/Tax.class
 fyi/incomeoutcome/salarytaxspend/spend/SpendFetchingService.class
 fyi/incomeoutcome/salarytaxspend/SalaryTaxSpendApplication.class
