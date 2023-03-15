@@ -27,7 +27,7 @@ public class Salary {
     private City city;
     @ManyToOne(optional = false)
     @JoinColumn(name = "site_id")
-    private SalarySource salarySource;
+    private SalarySource site;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="salary")
     private Tax tax;
     private String currency;
@@ -44,7 +44,7 @@ public class Salary {
         this.compensation = compensation;
         this.role = role;
         this.city = city;
-        this.salarySource = source;
+        this.site = source;
         this.currency = currency;
         this.updatedOn = new java.sql.Date(System.currentTimeMillis());
         this.compensationConverted = 0;
@@ -54,7 +54,7 @@ public class Salary {
     public Salary(Role role, City city, SalarySource salarySource){
         this.role = role;
         this.city = city;
-        this.salarySource = salarySource;
+        this.site = salarySource;
         this.currency = "";
         this.compensation = 0;
         this.compensationConverted = 0;
@@ -88,18 +88,18 @@ public class Salary {
     @JsonIgnore
     public java.sql.Date getUpdatedOn(){ return this.updatedOn; }
 
-    public SalarySource getSalarySource() { return this.salarySource; }
+    public SalarySource getSalarySource() { return this.site; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Salary salary = (Salary) o;
-        return Objects.equals(role, salary.role) && Objects.equals(city, salary.city) && Objects.equals(salarySource, salary.salarySource);
+        return Objects.equals(role, salary.role) && Objects.equals(city, salary.city) && Objects.equals(site, salary.site);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(role, city, salarySource);
+        return Objects.hash(role, city, site);
     }
 }

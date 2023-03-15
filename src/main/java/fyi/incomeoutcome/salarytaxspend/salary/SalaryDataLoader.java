@@ -41,7 +41,13 @@ public class SalaryDataLoader {
 
     public void loadData(long currentTime){
         List<Salary> requiredSalaries = getRequiredSalaries();
-        requiredSalaries.removeAll(getSalariesNotRequiringUpdate(currentTime));
+        List<Salary> rem = getSalariesNotRequiringUpdate(currentTime);
+        log.info(String.format("Got required salaries %d", requiredSalaries.size()));
+        log.info(String.format("Got no update salaries %d", rem.size()));
+
+        requiredSalaries.removeAll(rem);
+        log.info(String.format("Left with required salaries %d", requiredSalaries.size()));
+
         for (Salary salaryToFetch: requiredSalaries){
             log.info("Fetching Salary %s", salaryToFetch);
             glassdoorScraper.setRoleCitySource(salaryToFetch.getRole(),
@@ -63,7 +69,7 @@ public class SalaryDataLoader {
 
     public List<Salary> getSalariesNotRequiringUpdate(long currentTime){
         long dayCutOff = currentTime - TimeUnit.DAYS.toMillis((Long.parseLong(daysPerCompensation)));
-        List<Salary> notRequiringUpdateSalaries = salaryRepository.findByUpdatedOnLessThan(new java.sql.Date(dayCutOff));
+        List<Salary> notRequiringUpdateSalaries = salaryRepository.findByUpdatedOnGreaterThan(new java.sql.Date(dayCutOff));
         return notRequiringUpdateSalaries;
     }
 }

@@ -21,7 +21,7 @@ public interface SalaryRepository extends CrudRepository<Salary, Long> {
 
     List<Salary> findByCityIdOrderByCityIdAsc(long cityid);
 
-    List<Salary> findByUpdatedOnLessThan(java.sql.Date givenDate);
+    List<Salary> findByUpdatedOnGreaterThan(java.sql.Date givenDate);
 
 
 }
