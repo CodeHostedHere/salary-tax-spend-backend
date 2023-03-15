@@ -5,7 +5,7 @@ import fyi.incomeoutcome.salarytaxspend.city.City;
 import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
 import fyi.incomeoutcome.salarytaxspend.role.Role;
 import fyi.incomeoutcome.salarytaxspend.role.RoleRepository;
-import fyi.incomeoutcome.salarytaxspend.service.scraper.GlassdoorScraper;
+import fyi.incomeoutcome.salarytaxspend.scraper.GlassdoorScraper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,10 +43,10 @@ public class SalaryDataLoader {
         List<Salary> requiredSalaries = getRequiredSalaries();
         requiredSalaries.removeAll(getSalariesNotRequiringUpdate(currentTime));
         for (Salary salaryToFetch: requiredSalaries){
+            log.info("Fetching Salary %s", salaryToFetch);
             glassdoorScraper.setRoleCitySource(salaryToFetch.getRole(),
                     salaryToFetch.getCity(), salaryToFetch.getSalarySource());
             glassdoorScraper.executeScrape();
-            log.info("Fetching Salary %s", salaryToFetch);
         }
     }
 

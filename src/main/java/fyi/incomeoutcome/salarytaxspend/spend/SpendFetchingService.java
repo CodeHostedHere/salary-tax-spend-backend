@@ -1,7 +1,6 @@
 package fyi.incomeoutcome.salarytaxspend.spend;
 
 import fyi.incomeoutcome.salarytaxspend.city.City;
-import fyi.incomeoutcome.salarytaxspend.service.datafetching.DataFetchingService;
 import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
 
 import fyi.incomeoutcome.salarytaxspend.spendsource.SpendSource;
@@ -20,7 +19,7 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class SpendFetchingService implements DataFetchingService {
+public class SpendFetchingService {
 
     private CityRepository cityRepository;
     private SpendRepository spendRepository;

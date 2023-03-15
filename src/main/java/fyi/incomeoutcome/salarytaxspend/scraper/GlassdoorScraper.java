@@ -1,4 +1,4 @@
-package fyi.incomeoutcome.salarytaxspend.service.scraper;
+package fyi.incomeoutcome.salarytaxspend.scraper;
 
 import fyi.incomeoutcome.salarytaxspend.role.RoleUtil;
 import lombok.extern.slf4j.Slf4j;

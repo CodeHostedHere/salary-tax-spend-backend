@@ -7,6 +7,7 @@ A short project to familiarise myself with Spring boot, Junit, Mockito, and Sele
 
 There are inefficiencies which I have not optimised, instead leaving a comment to highlight them. The focus of the project is to gain familiarity with a few libraries so I'm fine to leave it not being as efficient as possible.
 
+I was going to keep refactoring this project but instead have decided to start another java project instead.
 
 ### Operation
 
@@ -14,9 +15,9 @@ There are inefficiencies which I have not optimised, instead leaving a comment t
 * Google Custom Search is used to scrape Glassdoor for Salary info as their URLs are not consistent.
 * The Expense List, called 'Spend', is fetched straight from the website.
 * Selenium is used to fetch Tax records for each country. It was picked to gain experience with the framework, some kind of library that can explore JS without a UI would be used in a real production environment
-* Running each data fetching service with 'refreshAll' on startup to fill the DB isn't the most efficient method, it does produce cleaner code than checking only for newly inserted values in a loop at the start.
 * A scheduler would need to be implemented to make this consistently check for new data on a long lived instance.
 * A Secrets Manager is not used as this is purely run locally, the DB is used as stand-in.
+* Tests are incomplete as it was just used to gain experience, rather than full test coverage
 
 ### Setup
 

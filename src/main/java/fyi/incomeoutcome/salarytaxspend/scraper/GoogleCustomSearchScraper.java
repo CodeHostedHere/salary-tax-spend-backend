@@ -1,4 +1,4 @@
-package fyi.incomeoutcome.salarytaxspend.service.scraper;
+package fyi.incomeoutcome.salarytaxspend.scraper;
 
 import fyi.incomeoutcome.salarytaxspend.city.City;
 import fyi.incomeoutcome.salarytaxspend.role.Role;

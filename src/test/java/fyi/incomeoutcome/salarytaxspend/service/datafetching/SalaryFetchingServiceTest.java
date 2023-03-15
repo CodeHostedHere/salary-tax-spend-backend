@@ -4,7 +4,7 @@ import fyi.incomeoutcome.salarytaxspend.salary.*;
 import fyi.incomeoutcome.salarytaxspend.city.CityRepository;
 import fyi.incomeoutcome.salarytaxspend.role.RoleRepository;
 import fyi.incomeoutcome.salarytaxspend.salary.SalarySourceRepository;
-import fyi.incomeoutcome.salarytaxspend.service.scraper.GlassdoorScraper;
+import fyi.incomeoutcome.salarytaxspend.scraper.GlassdoorScraper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

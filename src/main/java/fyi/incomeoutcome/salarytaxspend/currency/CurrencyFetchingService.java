@@ -6,7 +6,6 @@ import fyi.incomeoutcome.salarytaxspend.salary.SalaryRepository;
 import fyi.incomeoutcome.salarytaxspend.spend.SpendRepository;
 import fyi.incomeoutcome.salarytaxspend.tax.TaxRepository;
 import fyi.incomeoutcome.salarytaxspend.salary.Salary;
-import fyi.incomeoutcome.salarytaxspend.service.datafetching.DataFetchingService;
 import fyi.incomeoutcome.salarytaxspend.spend.SpendUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
@@ -30,7 +29,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class CurrencyFetchingService implements DataFetchingService {
+public class CurrencyFetchingService {
     private CurrencySourceRepository currencySourceRepository;
     private CurrencyRepository currencyRepository;
     private SalaryRepository salaryRepository;
@@ -69,7 +68,6 @@ public class CurrencyFetchingService implements DataFetchingService {
      *
      *   @param currentTime time when function is called, used to compare against older records insertion time
      */
-    @Override
     public void refreshAll(long currentTime){
         java.sql.Date currentDateTime = new java.sql.Date(currentTime);
         refreshAllSalaries(currentTime);

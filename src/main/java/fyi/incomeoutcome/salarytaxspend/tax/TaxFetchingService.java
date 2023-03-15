@@ -1,7 +1,6 @@
 package fyi.incomeoutcome.salarytaxspend.tax;
 
 import fyi.incomeoutcome.salarytaxspend.salary.Salary;
-import fyi.incomeoutcome.salarytaxspend.service.datafetching.DataFetchingService;
 import fyi.incomeoutcome.salarytaxspend.salary.SalaryRepository;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -29,7 +28,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class TaxFetchingService implements DataFetchingService {
+public class TaxFetchingService {
 
     private TaxSourceRepository taxSourceRepository;
     private TaxRepository taxRepository;
