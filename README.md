@@ -7,8 +7,6 @@ A short project to familiarise myself with Spring boot, Junit, Mockito, and Sele
 
 There are inefficiencies which I have not optimised, instead leaving a comment to highlight them. The focus of the project is to gain familiarity with a few libraries so I'm fine to leave it not being as efficient as possible.
 
-I was going to keep refactoring this project but instead have decided to start another java project instead.
-
 ### Operation
 
 * Using specified time limits and "updated_on" fields in the DB, information in this project expires and refetches information from its source. This also applies to currency conversion.
